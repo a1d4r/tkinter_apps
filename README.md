@@ -1,2 +1,2 @@
 # tkinter_apps
-Просто программы использующий tkinter на python
+Просто программы использующие tkinter на python
