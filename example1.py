@@ -9,23 +9,32 @@ class Block:
         self.e = Entry(master, width=20)
         self.b = Button(master, text="Преобразовать")
         self.l = Label(master, bg="Black", fg="white", width=20)
-        self.b.bind('<Button>', self.strToSortlist)
         self.e.pack()
         self.b.pack()
         self.l.pack()
-    def strToSortlist(self, event):
-        """
-        Сортирует слова в поля ввода и выводит их в нижнее окно
-        """
+    def setFunc(self, func):
+        self.b['command'] = eval('self.' + func)
+    def wordsSort(self):
+        """ Сортирует слова, записанные в поле ввода """
         s = self.e.get()
         s = s.split()
         s.sort()
         self.l["text"] = ' '.join(s)
+    def wordsReverse(self):
+        """ Меняет порядок слов, записанных в поле ввода, на противоположный """
+        s = self.e.get()
+        s = s.split()
+        s.reverse()
+        self.l['text'] = ' '.join(s)
 
 # Создать главное окно.
 root = Tk()
 
-block = Block(root)
+block_1 = Block(root)
+block_1.setFunc('wordsSort')
+
+block_2 = Block(root)
+block_2.setFunc('wordsReverse')
 
 # Запустить цикл обработки событий
 root.mainloop()
