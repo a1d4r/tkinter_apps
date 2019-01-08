@@ -9,12 +9,14 @@ class Rainbow:
     def __init__(self, master):
         self.label = Label(master)
         self.entry = Entry(master, justify=CENTER)
-        self.buttons = [Button(bg=self.colors[i], command=partial(self.print_color, i), width=15)
-                   for i in range(len(self.colors))]
+        self.colors_frame = Frame(master)
+        self.buttons = [Button(self.colors_frame, bg=self.colors[i], height=1, width=2,
+                        command=partial(self.print_color, i)) for i in range(len(self.colors))]
         self.label.pack()
         self.entry.pack()
+        self.colors_frame.pack(pady=2)
         for button in self.buttons:
-            button.pack()
+            button.pack(side="left", padx=1, pady=1)
 
     def print_color(self, i):
         self.label["text"] = self.names[i]
