@@ -3,30 +3,35 @@ from tkinter import *
 
 def main():
     root = Tk()
-    init_widgets()
+    m = MainWindow(root)
     root.mainloop()
 
 
-def init_widgets():
-    init_entry()
-    init_buttons()
-    init_text()
+class MainWindow:
+    def __init__(self, master):
+        self.init_menu(master)
+        self.init_text_section(master)
 
+    def init_menu(self, master):
+        self.menu = Frame()
+        self.init_entry()
+        self.init_buttons()
 
-def init_entry():
-    pass
+    def init_text_section(self, master):
+        self.text_section = Frame()
+        self.init_text()
+        self.init_scrollbars()
 
+    def init_entry(self):
+        pass
 
-def init_buttons():
-    pass
+    def init_buttons(self):
+        pass
 
+    def init_text(self):
+        pass
 
-def init_text():
-    pass
-
-
-def init_scrollbar():
-    pass
-
+    def init_scrollbars(self):
+        pass
 
 main()
