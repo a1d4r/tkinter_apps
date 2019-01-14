@@ -1,5 +1,5 @@
 from tkinter import *
-
+from tkinter import ttk
 
 def main():
     root = Tk()
@@ -14,37 +14,34 @@ class MainWindow:
 
     def init_menu(self, master):
         self.menu = Frame(master)
-        self.menu.pack(side=TOP)
+        self.menu.pack(side=TOP, ipady=4)
         self.init_entry()
         self.init_buttons()
 
     def init_text_section(self, master):
-        self.middle_frame = Frame(master)
-        self.bottom_frame = Frame(master)
-        self.middle_frame.pack(side=TOP)
-        self.bottom_frame.pack(side=TOP)
-        self.init_text()
+        self.text_section = Frame(master)
+        self.text_section.pack(side=BOTTOM)
         self.init_scrollbars()
+        self.init_text()
 
     def init_entry(self):
-        self.entry = Entry(self.menu)
-        self.entry.pack(side=LEFT)
+        self.entry = Entry(self.menu, width=20)
+        self.entry.pack(side=LEFT, padx=6)
 
     def init_buttons(self):
-        self.open_button = Button(self.menu, text="Открыть")
-        self.save_button = Button(self.menu, text="Сохранить")
-        self.open_button.pack(side=RIGHT)
-        self.save_button.pack(side=RIGHT)
+        self.open_button = Button(self.menu, text="Открыть", width=10)
+        self.save_button = Button(self.menu, text="Сохранить", width=10)
+        self.save_button.pack(side=LEFT, padx=4)
+        self.open_button.pack(side=LEFT, padx=4)
 
     def init_text(self):
-        self.text = Text(self.middle_frame)
-        self.text.pack(side=LEFT)
+        self.text = Text(self.text_section, height=20, width=40)
+        self.text.pack(side=TOP, fill=BOTH, expand=TRUE)
 
     def init_scrollbars(self):
-        self.vertical_scrollbar = Scrollbar(self.middle_frame, orient=VERTICAL)
-        self.vertical_scrollbar.pack(side=RIGHT)
-        self.horizonal_scrollbar = Scrollbar(self.bottom_frame, orient=HORIZONTAL)
-        self.horizonal_scrollbar.pack()
-
+        self.horizonal_scrollbar = Scrollbar(self.text_section, orient=HORIZONTAL)
+        self.horizonal_scrollbar.pack(side=BOTTOM, fill=X, expand=FALSE)
+        self.vertical_scrollbar = Scrollbar(self.text_section, orient=VERTICAL)
+        self.vertical_scrollbar.pack(side=RIGHT, fill=Y, expand=FALSE)
 
 main()
