@@ -48,6 +48,7 @@ class MainWindow:
     def configure_text(self):
         self.text.config(xscrollcommand=self.horizonal_scrollbar.set)
         self.text.config(yscrollcommand=self.vertical_scrollbar.set)
+        self.text.config(wrap=NONE)
 
     def init_scrollbars(self):
         self.horizonal_scrollbar = Scrollbar(self.text_section, orient=HORIZONTAL)
