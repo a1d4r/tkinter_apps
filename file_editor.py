@@ -67,6 +67,6 @@ class MainWindow:
     def save_file(self):
         filename = self.entry.get()
         text = self.text.get("1.0", END)
-        open(filename, "w").write(text)
+        open(filename, "w").write(text[:-1])
 
 main()
