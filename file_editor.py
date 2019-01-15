@@ -25,12 +25,12 @@ class MainWindow:
         self.init_text()
 
     def init_entry(self):
-        self.entry = Entry(self.menu, width=20)
+        self.entry = Entry(self.menu, width=30)
         self.entry.pack(side=LEFT, padx=6)
 
     def init_buttons(self):
-        self.open_button = Button(self.menu, text="Открыть", width=10)
-        self.save_button = Button(self.menu, text="Сохранить", width=10)
+        self.open_button = Button(self.menu, text="Открыть", command=self.open_file, width=8)
+        self.save_button = Button(self.menu, text="Сохранить", command=self.save_file, width=8)
         self.save_button.pack(side=LEFT, padx=4)
         self.open_button.pack(side=LEFT, padx=4)
 
@@ -43,5 +43,15 @@ class MainWindow:
         self.horizonal_scrollbar.pack(side=BOTTOM, fill=X, expand=FALSE)
         self.vertical_scrollbar = Scrollbar(self.text_section, orient=VERTICAL)
         self.vertical_scrollbar.pack(side=RIGHT, fill=Y, expand=FALSE)
+
+    def open_file(self):
+        self.text.delete("1.0", END)
+        filename = self.entry.get()
+        self.text.insert("1.0", ''.join(open(filename, "r").readlines()))
+
+    def save_file(self):
+        filename = self.entry.get()
+        text = self.text.get("1.0", END)
+        open(filename, "w").write(text)
 
 main()
