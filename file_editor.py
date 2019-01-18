@@ -1,4 +1,6 @@
 from tkinter import *
+from tkinter import filedialog as fd
+from tkinter import messagebox as mb
 
 
 def main():
@@ -15,7 +17,6 @@ class MainWindow:
     def init_menu(self, master):
         self.menu = Frame(master)
         self.menu.pack(side=TOP, ipady=4)
-        self.init_entry()
         self.init_buttons()
         self.configure_buttons()
 
@@ -27,15 +28,11 @@ class MainWindow:
         self.configure_text()
         self.configure_scrollbars()
 
-    def init_entry(self):
-        self.entry = Entry(self.menu, width=30)
-        self.entry.pack(side=LEFT, padx=6)
-
     def init_buttons(self):
         self.open_button = Button(self.menu, text="Открыть", width=8)
         self.save_button = Button(self.menu, text="Сохранить", command=self.save_file, width=8)
-        self.save_button.pack(side=LEFT, padx=4)
         self.open_button.pack(side=LEFT, padx=4)
+        self.save_button.pack(side=LEFT, padx=4)
 
     def configure_buttons(self):
         self.open_button.config(command=self.open_file)
@@ -61,13 +58,23 @@ class MainWindow:
         self.vertical_scrollbar.config(command=self.text.yview)
 
     def open_file(self):
-        self.text.delete("1.0", END)
-        filename = self.entry.get()
-        self.text.insert("1.0", ''.join(open(filename, "r").readlines()))
+        filename = fd.askopenfilename(filetypes=[("Text files", "*.txt"), ("All files", "*")])
+        try:
+            f = open(filename, "r")
+            self.text.delete("1.0", END)
+            self.text.insert("1.0", ''.join(f.readlines()))
+        except:
+            mb.showerror(title="Ошибка", message="Не удалось открыть файл")
+
 
     def save_file(self):
-        filename = self.entry.get()
-        text = self.text.get("1.0", END)
-        open(filename, "w").write(text[:-1])
+        filename = fd.asksaveasfilename(filetypes=[("Text files", "*.txt"), ("All files", "*")])
+        try:
+            f = open(filename, "w")
+            text = self.text.get("1.0", END)
+            f.write(text[:-1])
+        except:
+            mb.showerror(title="Ошибка", message="Не удалось сохранить файл")
+
 
 main()
