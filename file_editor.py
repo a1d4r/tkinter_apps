@@ -18,31 +18,19 @@ class MainWindow(Tk):
         self.bind("<Control-q>", lambda event: self.destroy())
 
     def init_menu(self):
-        self.menu = Frame(self)
-        self.menu.pack(side=TOP, ipady=4)
-        self.init_buttons()
-        self.configure_buttons()
+        self.menu = Menu(self)
+        self.config(menu=self.menu)
+        self.menu.add_command(label="Открыть", command=self.open_file)
+        self.menu.add_command(label="Сохранить", command=self.save_file)
 
     def init_text_section(self):
-        self.text_section = Frame(self)
-        self.text_section.pack(side=BOTTOM)
         self.init_scrollbars()
         self.init_text()
         self.configure_text()
         self.configure_scrollbars()
 
-    def init_buttons(self):
-        self.open_button = Button(self.menu, text="Открыть", width=8)
-        self.save_button = Button(self.menu, text="Сохранить", command=self.save_file, width=8)
-        self.open_button.pack(side=LEFT, padx=4)
-        self.save_button.pack(side=LEFT, padx=4)
-
-    def configure_buttons(self):
-        self.open_button.config(command=self.open_file)
-        self.save_button.config(command=self.save_file)
-
     def init_text(self):
-        self.text = Text(self.text_section, height=20, width=40)
+        self.text = Text(self, height=20, width=40)
         self.text.pack(side=TOP, fill=BOTH, expand=TRUE)
 
     def configure_text(self):
@@ -51,9 +39,9 @@ class MainWindow(Tk):
         self.text.config(wrap=NONE)
 
     def init_scrollbars(self):
-        self.horizonal_scrollbar = Scrollbar(self.text_section, orient=HORIZONTAL)
+        self.horizonal_scrollbar = Scrollbar(self, orient=HORIZONTAL)
         self.horizonal_scrollbar.pack(side=BOTTOM, fill=X, expand=FALSE)
-        self.vertical_scrollbar = Scrollbar(self.text_section, orient=VERTICAL)
+        self.vertical_scrollbar = Scrollbar(self, orient=VERTICAL)
         self.vertical_scrollbar.pack(side=RIGHT, fill=Y, expand=FALSE)
 
     def configure_scrollbars(self):
