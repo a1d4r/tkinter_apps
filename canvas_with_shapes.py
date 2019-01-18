@@ -7,6 +7,15 @@ class MainWindow(Tk):
         self.title("Прямовал")
         self.init_canvas()
         self.init_button()
+        self.centralize_window()
+
+    def centralize_window(self):
+        self.update_idletasks()
+        screen_w, screen_h = self.winfo_screenwidth(), self.winfo_screenheight()
+        window_w, window_h = map(int, self.geometry().split('+')[0].split('x'))
+        window_x = screen_w // 2 - window_w // 2
+        window_y = screen_h // 2 - window_h // 2
+        self.geometry('+{}+{}'.format(window_x, window_y))
 
     def init_canvas(self):
         self.canvas = Canvas(self, bg="White", height=400, width=400)
@@ -18,7 +27,7 @@ class MainWindow(Tk):
         self.button.pack(side=TOP, pady=4)
 
     def create_figure_window(self):
-        w = FigureWindow(self.draw_rectangular, self.draw_oval)
+        w = FigureWindow(self)
 
     def draw_rectangular(self, x1, y1, x2, y2):
         self.canvas.create_rectangle(x1, y1, x2, y2)
@@ -28,13 +37,27 @@ class MainWindow(Tk):
 
 
 class FigureWindow(Toplevel):
-    def __init__(self, draw_rectangular, draw_oval, *args, **kwargs):
+    def __init__(self, master, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title("Фигура")
         self.init_first_point_frame()
         self.init_second_point_frame()
         self.init_radiobuttons()
-        self.init_button(draw_rectangular, draw_oval)
+        self.init_button(master.draw_rectangular, master.draw_oval)
+        self.align_window(master)
+
+    def align_window(self, master):
+        self.update_idletasks()
+        master_w, master_h = map(int, master.geometry().split('+')[0].split('x'))
+        master_x, master_y = map(int, master.geometry().split('+')[1:])
+        window_w, window_h = map(int, self.geometry().split('+')[0].split('x'))
+        window_x = master_x + master_w
+        window_y = master_y
+        print(master_w, master_h)
+        print(master_x, master_y)
+        print(window_w, window_h)
+        print(window_x, window_y)
+        self.geometry('+{}+{}'.format(window_x, window_y))
 
     def init_first_point_frame(self):
         self.frame1 = LabelFrame(self, text="Координаты первой точки")
