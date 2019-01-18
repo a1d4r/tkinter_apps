@@ -40,8 +40,8 @@ class FigureWindow(Toplevel):
     def __init__(self, master, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title("Фигура")
-        self.init_first_point_frame()
-        self.init_second_point_frame()
+        self.init_first_point_entries()
+        self.init_second_point_entries()
         self.init_radiobuttons()
         self.init_button(master.draw_rectangular, master.draw_oval)
         self.align_window(master)
@@ -59,40 +59,36 @@ class FigureWindow(Toplevel):
         print(window_x, window_y)
         self.geometry('+{}+{}'.format(window_x, window_y))
 
-    def init_first_point_frame(self):
-        self.frame1 = LabelFrame(self, text="Координаты первой точки")
-        self.entry_x1 = Entry(self.frame1, width=10)
-        self.entry_y1 = Entry(self.frame1, width=10)
+    def init_first_point_entries(self):
+        Label(self, text="x1").grid(row=0, column=0, sticky=E, pady=6)
+        self.entry_x1 = Entry(self, width=4)
+        self.entry_x1.grid(row=0, column=1, sticky=W)
+        Label(self, text="y1").grid(row=0, column=2, sticky=E)
+        self.entry_y1 = Entry(self, width=4)
+        self.entry_y1.grid(row=0, column=3, sticky=W)
 
-        self.frame1.pack(side=TOP)
-        self.entry_x1.pack(side=LEFT, padx=10)
-        self.entry_y1.pack(side=LEFT, padx=10)
-
-    def init_second_point_frame(self):
-        self.frame2 = LabelFrame(self, text="Координаты второй точки")
-        self.entry_x2 = Entry(self.frame2, width=10)
-        self.entry_y2 = Entry(self.frame2, width=10)
-
-        self.frame2.pack(side=TOP)
-        self.entry_x2.pack(side=LEFT, padx=10)
-        self.entry_y2.pack(side=LEFT, padx=10)
+    def init_second_point_entries(self):
+        Label(self, text="x2").grid(row=1, column=0, sticky=E, pady=10)
+        self.entry_x2 = Entry(self, width=4)
+        self.entry_x2.grid(row=1, column=1, sticky=W)
+        Label(self, text="y2").grid(row=1, column=2, sticky=E)
+        self.entry_y2 = Entry(self, width=4)
+        self.entry_y2.grid(row=1, column=3, sticky=W)
 
     def init_radiobuttons(self):
-        self.frame3 = LabelFrame(self, text="Выберите фигуру")
         self.value = IntVar()
         self.value.set(0)
-        self.button_rectangle = Radiobutton(self.frame3, value=0, variable=self.value,
-                                            text="Прямоугольник")
-        self.button_oval = Radiobutton(self.frame3, value=1, variable=self.value,
-                                       text="Овал")
-        self.frame3.pack(side=TOP)
-        self.button_rectangle.pack(side=TOP, anchor="w")
-        self.button_oval.pack(side=TOP, anchor="w")
+        self.button_rectangle = Radiobutton(self, value=0, variable=self.value,
+                                            text="Прямоугольник").grid(row=2, column=0,
+                                                                       columnspan=4, sticky=W, padx=10)
+        self.button_oval = Radiobutton(self, value=1, variable=self.value,
+                                       text="Овал").grid(row=3, column=0,
+                                                         columnspan=4, sticky=W, padx=10)
 
     def init_button(self, draw_rectangular, draw_oval):
-        self.button_draw = Button(self, text="Нарисовать", width=20)
-        self.button_draw["command"] = lambda: self.draw_figure(draw_rectangular, draw_oval)
-        self.button_draw.pack(side=TOP, pady=6)
+        Button(self, text="Нарисовать",
+               command=lambda: self.draw_figure(draw_rectangular, draw_oval)).grid(
+               row=4, column=0, columnspan=4, pady=6, padx=10, sticky=W+E)
 
     def draw_figure(self, draw_rectangular, draw_oval):
         x1 = int(self.entry_x1.get())
