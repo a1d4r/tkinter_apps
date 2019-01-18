@@ -13,6 +13,9 @@ class MainWindow:
     def __init__(self, master):
         self.init_menu(master)
         self.init_text_section(master)
+        master.bind("<Control-o>", lambda event: self.open_file())
+        master.bind("<Control-s>", lambda event: self.save_file())
+        master.bind("<Control-q>", lambda event: master.destroy())
 
     def init_menu(self, master):
         self.menu = Frame(master)
@@ -58,6 +61,7 @@ class MainWindow:
         self.vertical_scrollbar.config(command=self.text.yview)
 
     def open_file(self):
+        print("open")
         filename = fd.askopenfilename(filetypes=[("Text files", "*.txt"), ("All files", "*")])
         try:
             f = open(filename, "r")
