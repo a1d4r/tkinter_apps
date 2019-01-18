@@ -4,27 +4,27 @@ from tkinter import messagebox as mb
 
 
 def main():
-    root = Tk()
-    m = MainWindow(root)
-    root.mainloop()
+    m = MainWindow()
+    m.mainloop()
 
 
-class MainWindow:
-    def __init__(self, master):
-        self.init_menu(master)
-        self.init_text_section(master)
-        master.bind("<Control-o>", lambda event: self.open_file())
-        master.bind("<Control-s>", lambda event: self.save_file())
-        master.bind("<Control-q>", lambda event: master.destroy())
+class MainWindow(Tk):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.init_menu()
+        self.init_text_section()
+        self.bind("<Control-o>", lambda event: self.open_file())
+        self.bind("<Control-s>", lambda event: self.save_file())
+        self.bind("<Control-q>", lambda event: self.destroy())
 
-    def init_menu(self, master):
-        self.menu = Frame(master)
+    def init_menu(self):
+        self.menu = Frame(self)
         self.menu.pack(side=TOP, ipady=4)
         self.init_buttons()
         self.configure_buttons()
 
-    def init_text_section(self, master):
-        self.text_section = Frame(master)
+    def init_text_section(self):
+        self.text_section = Frame(self)
         self.text_section.pack(side=BOTTOM)
         self.init_scrollbars()
         self.init_text()
@@ -61,7 +61,6 @@ class MainWindow:
         self.vertical_scrollbar.config(command=self.text.yview)
 
     def open_file(self):
-        print("open")
         filename = fd.askopenfilename(filetypes=[("Text files", "*.txt"), ("All files", "*")])
         try:
             f = open(filename, "r")
